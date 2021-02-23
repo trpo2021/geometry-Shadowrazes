@@ -8,6 +8,18 @@
 using namespace std;
 const int T = 8;
 
+string figureName(string& s)
+{
+    int bracket = s.find('(');
+    string name = "";
+
+    for (int j = 0; j < size(s); j++) {
+        s[j] = tolower(s[j]);               //приводим к одному регистру(строчный)
+    }
+    name = s.substr(0, bracket);
+    return name;
+}
+
 void triangle(string& s)
 {
     double mas[T];
