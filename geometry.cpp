@@ -6,56 +6,6 @@
 
 
 using namespace std;
-const int T = 8;
-
-string figureName(string& s)
-{
-    int bracket = s.find('(');
-    string name = "";
-
-    for (int j = 0; j < size(s); j++)
-    {
-        s[j] = tolower(s[j]);               //приводим к одному регистру(строчный)
-    }
-    name = s.substr(0, bracket);
-    return name;
-}
-
-vector<double> setTriangle(string& s)
-{
-    double mas[T];
-    string t = "";
-    int k = 0;
-    if (s.find("((") < s.find("))"))
-    {
-        for (int i = s.find("((") + 2; i <= s.find("))"); i++)
-        {
-            if (s[i] == 32 || s[i] == 44 || s[i] == 41) //пробел || запятая || скобка
-            {
-                if (t != "")
-                {
-                    mas[k] = stod(t);
-                    k++;
-                    if (k == T)
-                    {
-                        for (int i = 0; i < T; i++)
-                            cout << mas[i] << " ";
-                        cout << endl;
-                        return;
-                    }
-                }
-                t = "";
-                continue;
-            }
-            if ((s[i] < 47 || s[i]>58) && (s[i] != 45 && s[i] != 46))
-            {
-                cout << "error" << endl;
-                return;
-            }
-            t += s[i];
-        }
-    }
-}
 
 void error(int code, int column)
 {
@@ -83,6 +33,97 @@ void error(int code, int column)
         cout << "Error at column " << column << ": expected '('; code = " << code << endl;
         break;
     }
+}
+
+string figureName(string& s)
+{
+    int bracket = s.find('((');
+    string name = "";
+
+    for (int i = 0; i < size(s); i++)
+    {
+        s[i] = tolower(s[i]);               //приводим к одному регистру(строчный)
+    }
+    name = s.substr(0, bracket);
+    return name;
+}
+
+vector<double> setTriangle(string& s)
+{
+    vector<double> coord;
+    string temp = s, tempCoord = "", item;
+    int bracket = temp.find("((");
+    int endBracket = temp.find("))");
+    int k = 0, column = 10;
+
+    if (endBracket == -1)
+    {
+        error(3, temp.length() - 1);
+        coord.clear();
+        return coord;
+    }
+    
+    tempCoord = temp.substr(bracket);
+    if ((tempCoord[0] == '(') && (tempCoord[1] == '('))
+    {
+        tempCoord.erase(0, 2);
+    }
+    else
+    {
+        error(5, 8);
+        coord.clear();
+        return coord;
+    }
+    for (int i = 0; i < tempCoord.length(); i++)
+    {
+
+        item = "";
+        if (k < 7)
+        {
+            if (((tempCoord[i] < 48) || (tempCoord[i] > 57)) && (tempCoord[i] != 32) && (tempCoord[i] != 44) && (tempCoord[i] != 46)) //ОДЗ
+            {
+                error(2, column);
+                coord.clear();
+                return coord;
+            }
+            if (tempCoord[i] == ' ')
+            {
+                item += tempCoord.substr(0, i);
+                coord.push_back(stod(item));
+                tempCoord.erase(0, i + 1);
+                i = 0;
+                k++;
+                column++;
+            }
+            if (tempCoord[i] == ',')
+            {
+                item += tempCoord.substr(0, i);
+                coord.push_back(stod(item));
+                tempCoord.erase(0, i + 2);      //удаляем запятую и пробел за ней
+                i = 0;
+                k++;
+                column += 2;
+            }
+        }
+        else 
+        {
+            item = tempCoord.substr(0, tempCoord.find('))'));
+            coord.push_back(stod(item));
+            column += tempCoord.find('))') + 2;
+            tempCoord.erase(0, tempCoord.find('))') + 2);
+            for (int j = 0; j < tempCoord.length(); j++)
+            {
+                if (tempCoord[j] != 32 )
+                {
+                    error(4, s.find("))") + (j+1));
+                    coord.clear();
+                    return coord;
+                }
+            }
+        }
+        column++;
+    }
+    return coord;
 }
 
 int main()
@@ -118,16 +159,14 @@ int main()
             figure.second = coord;
             flist.push_back(figure);
         }
-
-        for (i = 0; i < flist.size(); i++)
+    }
+    for (i = 0; i < flist.size(); i++)
+    {
+        cout << i + 1 << ". " << flist[i].first << ": ";
+        for (j = 0; j < flist[i].second.size(); j++)
         {
-            cout << i + 1 << ". " << flist[i].first << ": ";
-            for (j = 0; j < flist[i].second.size(); j++)
-            {
-                cout << flist[i].second[j] << " ";
-            }
-            cout << endl;
+            cout << flist[i].second[j] << " ";
         }
+        cout << endl;
     }
 }
-
