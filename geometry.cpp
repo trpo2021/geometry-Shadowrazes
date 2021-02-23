@@ -13,14 +13,15 @@ string figureName(string& s)
     int bracket = s.find('(');
     string name = "";
 
-    for (int j = 0; j < size(s); j++) {
+    for (int j = 0; j < size(s); j++)
+    {
         s[j] = tolower(s[j]);               //приводим к одному регистру(строчный)
     }
     name = s.substr(0, bracket);
     return name;
 }
 
-void triangle(string& s)
+vector<double> setTriangle(string& s)
 {
     double mas[T];
     string t = "";
@@ -58,12 +59,14 @@ void triangle(string& s)
 
 void error(int code, int column)
 {
-    for (int i = 0; i < column; i++) {
+    for (int i = 0; i < column; i++)
+    {
         cout << " ";
     }
     cout << "^" << endl;
 
-    switch (code) {
+    switch (code)
+    {
     case 1:
         cout << "Error at column " << column << ": expected 'triangle'; code = " << code << endl;
         break;
@@ -85,19 +88,46 @@ void error(int code, int column)
 int main()
 {
     setlocale(LC_CTYPE, "RUSSIAN");
-    vector<string> list;
+    vector<pair<string, vector<double>>> flist;
     string s;
-    int i;
+    int i, j;
     cout << "Задайте фигуры" << endl;
-    while (getline(cin, s)) {
+    while (getline(cin, s))
+    {
         if (s == "")
         {
             break;
         }
-        list.push_back(s);
-    }
-    for (i = 0; i < list.size(); i++) 
-    {
-        cout << list[i] << endl;
+
+        vector<double> coord;
+        string name = figureName(s);
+        pair<string, vector<double>> figure;
+
+        if (name == "triangle")
+        {
+            coord = setTriangle(s);
+        }
+        else
+        {
+            error(1, 0);
+        }
+        
+        if (coord.size() > 0)
+        {
+            figure.first = name;
+            figure.second = coord;
+            flist.push_back(figure);
+        }
+
+        for (i = 0; i < flist.size(); i++)
+        {
+            cout << i + 1 << ". " << flist[i].first << ": ";
+            for (j = 0; j < flist[i].second.size(); j++)
+            {
+                cout << flist[i].second[j] << " ";
+            }
+            cout << endl;
+        }
     }
 }
+
