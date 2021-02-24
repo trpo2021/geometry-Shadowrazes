@@ -37,10 +37,11 @@ void error(int code, int column)
 
 string figureName(string& s)
 {
-    int bracket = s.find('((');
+    int bracket = s.find("((");
     string name = "";
-
-    for (int i = 0; i < size(s); i++)
+    int z = s.length();
+    
+    for (int i = 0; i < z; i++)
     {
         s[i] = tolower(s[i]);               //приводим к одному регистру(строчный)
     }
@@ -74,7 +75,8 @@ vector<double> setTriangle(string& s)
         coord.clear();
         return coord;
     }
-    for (int i = 0; i < tempCoord.length(); i++)
+    int z = tempCoord.length();
+    for (int i = 0; i < z; i++)
     {
 
         item = "";
@@ -91,6 +93,7 @@ vector<double> setTriangle(string& s)
                 item += tempCoord.substr(0, i);
                 coord.push_back(stod(item));
                 tempCoord.erase(0, i + 1);
+                z = tempCoord.length();
                 i = 0;
                 k++;
                 column++;
@@ -100,6 +103,7 @@ vector<double> setTriangle(string& s)
                 item += tempCoord.substr(0, i);
                 coord.push_back(stod(item));
                 tempCoord.erase(0, i + 2);      //удаляем запятую и пробел за ней
+                z = tempCoord.length();
                 i = 0;
                 k++;
                 column += 2;
@@ -107,11 +111,12 @@ vector<double> setTriangle(string& s)
         }
         else 
         {
-            item = tempCoord.substr(0, tempCoord.find('))'));
+            item = tempCoord.substr(0, tempCoord.find("))"));
             coord.push_back(stod(item));
-            column += tempCoord.find('))') + 2;
-            tempCoord.erase(0, tempCoord.find('))') + 2);
-            for (int j = 0; j < tempCoord.length(); j++)
+            column += tempCoord.find("))") + 2;
+            tempCoord.erase(0, tempCoord.find("))") + 2);
+            z = tempCoord.length();
+            for (int j = 0; j < z; j++)
             {
                 if (tempCoord[j] != 32 )
                 {
@@ -160,10 +165,12 @@ int main()
             flist.push_back(figure);
         }
     }
-    for (i = 0; i < flist.size(); i++)
+    int z = flist.size();
+    for (i = 0; i < z; i++)
     {
         cout << i + 1 << ". " << flist[i].first << ": ";
-        for (j = 0; j < flist[i].second.size(); j++)
+        int x = flist[i].second.size();
+        for (j = 0; j < x; j++)
         {
             cout << flist[i].second[j] << " ";
         }
