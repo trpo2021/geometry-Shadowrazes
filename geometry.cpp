@@ -59,6 +59,22 @@ pair<int, int> afterBracket(string& s, int i)
     return br;
 }
 
+pair<int, int> btwBrackets(string& s, int start, int end)
+{
+    pair<int, int> btw(0, 0);
+    int i = start;
+    for (i; i < end; i++) 
+    {
+        if (odz(s[i])) 
+        {
+            btw.first = 1;
+            btw.second = i;
+            return btw;
+        }
+    }
+    return btw;
+}
+
 string figureName(string& s)
 {
     int bracket = s.find("((");
