@@ -46,7 +46,7 @@ pair<int, int> afterBracket(string& s, int i)
     pair<int, int> br(0, 0);
     if (i == leng)
         return br;
-    for (i; i < leng; i++) 
+    for (i = i; i < leng; i++) 
     {
         if (s[i] != 32) 
         {
@@ -62,8 +62,8 @@ pair<int, int> afterBracket(string& s, int i)
 pair<int, int> btwBrackets(string& s, int start, int end)
 {
     pair<int, int> btw(0, 0);
-    int i = start;
-    for (i; i < end; i++) 
+    int i;
+    for (i = start; i < end; i++) 
     {
         if (odz(s[i])) 
         {
@@ -92,81 +92,56 @@ string figureName(string& s)
 vector<double> setTriangle(string& s)
 {
     vector<double> coord;
-    string temp = s, tempCoord = "", item;
-    int bracket = temp.find("((");
-    int endBracket = temp.find("))");
-    int k = 0, column = 10;
+    string item;
+    int bracket = s.find("((");
+    int endBracket = s.find("))");
+    int k = 0;
+    pair<int, int> uni;
+    pair<bool, int> t;
 
-    if (endBracket == -1)
-    {
-        error(3, temp.length() - 1);
-        coord.clear();
-        return coord;
-    }
-    
-    tempCoord = temp.substr(bracket);
-    if ((tempCoord[0] == '(') && (tempCoord[1] == '('))
-    {
-        tempCoord.erase(0, 2);
-    }
-    else
+    if (bracket == -1) 
     {
         error(5, 8);
         coord.clear();
         return coord;
     }
-    int z = tempCoord.length();
-    for (int i = 0; i < z; i++)
-    {
 
-        item = "";
-        if (k < 7)
+    if (endBracket == -1) 
+    {
+        error(3, s.length());
+        coord.clear();
+        return coord;
+    }
+
+    uni = afterBracket(s, endBracket + 2);
+    if (uni.first) 
+    {
+        error(4, uni.second);
+        coord.clear();
+        return coord;
+    }
+
+    uni = btwBrackets(s, bracket + 2, endBracket);
+    if (uni.first) 
+    {
+        error(2, uni.second);
+        coord.clear();
+        return coord;
+    }
+
+    int i;
+    for (i = bracket + 2; i <= endBracket; i++) 
+    {
+        if ((s[i] == ' ' || s[i] == ')' || s[i] == ',') && item != "") 
         {
-            if (((tempCoord[i] < 48) || (tempCoord[i] > 57)) && (tempCoord[i] != 32) && (tempCoord[i] != 44) && (tempCoord[i] != 46)) //ОДЗ
-            {
-                error(2, column);
-                coord.clear();
-                return coord;
-            }
-            if (tempCoord[i] == ' ')
-            {
-                item += tempCoord.substr(0, i);
-                coord.push_back(stod(item));
-                tempCoord.erase(0, i + 1);
-                z = tempCoord.length();
-                i = 0;
-                k++;
-                column++;
-            }
-            if (tempCoord[i] == ',')
-            {
-                item += tempCoord.substr(0, i);
-                coord.push_back(stod(item));
-                tempCoord.erase(0, i + 2);      //удаляем запятую и пробел за ней
-                z = tempCoord.length();
-                i = 0;
-                k++;
-                column += 2;
-            }
-        }
-        else 
-        {
-            item = tempCoord.substr(0, tempCoord.find("))"));
             coord.push_back(stod(item));
-            column += tempCoord.find("))") + 2;
-            tempCoord.erase(0, tempCoord.find("))") + 2);
-            z = tempCoord.length();
-            for (int j = 0; j < z; j++)
-            {
-                if (tempCoord[j] != 32 )
-                {
-                    error(4, s.find("))") + (j+1));
-                    coord.clear();
-                    return coord;
-                }
-            }
+            k++;
+            item = "";
         }
-        column++;
+        if (s[i] != ' ' && s[i] != ',') 
+        {
+            item += s[i];
+        }
     }
     return coord;
 }
@@ -216,4 +191,5 @@ int main()
         }
         cout << endl;
     }
+    system("pause");
 }
