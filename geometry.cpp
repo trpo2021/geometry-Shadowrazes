@@ -35,6 +35,11 @@ void error(int code, int column)
     }
 }
 
+bool odz(int condition)
+{
+    return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 44) && (condition != 46) && (condition != 45);
+}
+
 string figureName(string& s)
 {
     int bracket = s.find("((");
