@@ -40,6 +40,25 @@ bool odz(int condition)
     return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 44) && (condition != 46) && (condition != 45);
 }
 
+pair<int, int> afterBracket(string& s, int i)
+{
+    int leng = s.length(), start = i;
+    pair<int, int> br(0, 0);
+    if (i == leng)
+        return br;
+    for (i; i < leng; i++) 
+    {
+        if (s[i] != 32) 
+        {
+            br.first = 1;
+            br.second = i;
+            return br;
+        }
+    }
+    s.erase(start);
+    return br;
+}
+
 string figureName(string& s)
 {
     int bracket = s.find("((");
