@@ -51,10 +51,10 @@ bool odzBeforeAfter(int condition) // ОДЗ для функции поиска 
     return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 46) && (condition != 45);
 }
 
-pair<int, int> afterBracket(string& s, int i)
+pair<bool, int> afterBracket(string& s, int i)
 {
     int leng = s.length(), start = i;
-    pair<int, int> br(0, 0);
+    pair<bool, int> br(0, 0);
     if (i == leng)
         return br;
     for (i = i; i < leng; i++) 
@@ -98,6 +98,36 @@ string figureName(string& s)
     }
     name = s.substr(0, bracket);
     return name;
+}
+
+pair<bool, int> commaBeforeAfter(string& s, int start, int end) // проверка лишних запятых до 1го и после последнего токена
+{
+    int i, j = start;
+    pair<bool, int> data(0, 0);
+    while (odzBeforeAfter(s[j]) || s[j] == ' ')
+         j++;
+    for (i = start; i < j; i++) 
+    {
+        if (odzBeforeAfter(s[i])) 
+        {
+            data.first = 1;
+            data.second = i;
+            return data;
+        }
+    }
+    j = end;
+    while (odzBeforeAfter(s[j]) || s[j] == ' ')
+        j--;
+    for (i = end; i > j; i--) 
+    {
+        if (odzBeforeAfter(s[i])) 
+        {
+            data.first = 1;
+            data.second = i;
+            return data;
+        }
+    }
+    return data;
 }
 
 vector<double> setTriangle(string& s)
