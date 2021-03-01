@@ -130,6 +130,31 @@ pair<bool, int> commaBeforeAfter(string& s, int start, int end) // провер�
     return data;
 }
 
+pair<bool, int> commaBtw(string& s, int start, int end, int k) // проверка лишних запятых между токенами
+{
+    int i;
+    pair<bool, int> data(0, 0);
+    for (i = start; i < end; i++)
+        if (s[i] != ' ')
+            break;
+    switch (k % 2) 
+    {
+    case 0:
+        if (s[i] == ',' || (s[i] == ')' && i == end))
+            return data;
+        else
+            break;
+    case 1:
+        if (s[i] != ',')
+            return data;
+        else
+            break;
+    }
+    data.first = 1;
+    data.second = i;
+    return data;
+}
+
 vector<double> setTriangle(string& s)
 {
     vector<double> coord;
