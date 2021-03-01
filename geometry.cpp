@@ -46,6 +46,11 @@ bool odz(int condition)
     return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 44) && (condition != 46) && (condition != 45);
 }
 
+bool odzBeforeAfter(int condition) // ОДЗ для функции поиска лишних запятых перед 1м и после последнего токена
+{
+    return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 46) && (condition != 45);
+}
+
 pair<int, int> afterBracket(string& s, int i)
 {
     int leng = s.length(), start = i;
