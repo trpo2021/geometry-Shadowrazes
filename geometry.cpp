@@ -1,21 +1,20 @@
-﻿#include <iostream>
+﻿#include <cmath>
+#include <cstdlib>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <cmath>
-#include <cstdlib>
-
 
 using namespace std;
 
 void error(int code, int column)
 {
-    for (int i = 0; i < column; i++)
+    for (int i = 0; i < column; i++) 
     {
         cout << " ";
     }
     cout << "^" << endl;
 
-    switch (code)
+    switch (code) 
     {
     case 1:
         cout << "Error at column " << column << ": 'circle', 'triangle' or 'polygon'; code = " << code << endl;
@@ -41,6 +40,12 @@ void error(int code, int column)
     }
 }
 
+vector <double> clearVec(vector <double>& coord)
+{
+    coord.clear();
+    return (coord);
+}
+
 bool odz(int condition)
 {
     return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 44) && (condition != 46) && (condition != 45);
@@ -51,10 +56,10 @@ bool odzBeforeAfter(int condition) // ОДЗ для функции поиска 
     return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 46) && (condition != 45);
 }
 
-pair<bool, int> afterBracket(string& s, int i)
+pair <bool, int> afterBracket(string& s, int i)
 {
     int leng = s.length(), start = i;
-    pair<bool, int> br(0, 0);
+    pair <bool, int> br(0, 0);
     if (i == leng)
         return br;
     for (i = i; i < leng; i++) 
@@ -70,9 +75,9 @@ pair<bool, int> afterBracket(string& s, int i)
     return br;
 }
 
-pair<int, int> btwBrackets(string& s, int start, int end)
+pair <int, int> btwBrackets(string& s, int start, int end)
 {
-    pair<int, int> btw(0, 0);
+    pair <int, int> btw(0, 0);
     int i;
     for (i = start; i < end; i++) 
     {
@@ -91,21 +96,21 @@ string figureName(string& s)
     int bracket = s.find("((");
     string name = "";
     int z = s.length();
-    
-    for (int i = 0; i < z; i++)
+
+    for (int i = 0; i < z; i++) 
     {
-        s[i] = tolower(s[i]);               //приводим к одному регистру(строчный)
+        s[i] = tolower(s[i]); //приводим к одному регистру(строчный)
     }
     name = s.substr(0, bracket);
     return name;
 }
 
-pair<bool, int> commaBeforeAfter(string& s, int start, int end) // проверка лишних запятых до 1го и после последнего токена
+pair <bool, int> commaBeforeAfter(string& s, int start, int end) // проверка лишних запятых до 1го и после последнего токена
 {
     int i, j = start;
-    pair<bool, int> data(0, 0);
+    pair <bool, int> data(0, 0);
     while (odzBeforeAfter(s[j]) || s[j] == ' ')
-         j++;
+        j++;
     for (i = start; i < j; i++) 
     {
         if (odzBeforeAfter(s[i])) 
@@ -130,10 +135,10 @@ pair<bool, int> commaBeforeAfter(string& s, int start, int end) // провер�
     return data;
 }
 
-pair<bool, int> commaBtw(string& s, int start, int end, int k) // проверка лишних запятых между токенами
+pair <bool, int> commaBtw(string& s, int start, int end, int k) // проверка лишних запятых между токенами
 {
     int i;
-    pair<bool, int> data(0, 0);
+    pair <bool, int> data(0, 0);
     for (i = start; i < end; i++)
         if (s[i] != ' ')
             break;
@@ -155,15 +160,15 @@ pair<bool, int> commaBtw(string& s, int start, int end, int k) // проверк
     return data;
 }
 
-vector<double> setTriangle(string& s)
+vector <double> setTriangle(string& s)
 {
-    vector<double> coord;
+    vector <double> coord;
     string item;
     int bracket = s.find("((");
     int endBracket = s.find("))");
     int k = 0;
-    pair<int, int> uni;
-    pair<bool, int> t;
+    pair <int, int> uni;
+    pair <bool, int> t;
 
     if (bracket == -1) 
     {
@@ -219,9 +224,9 @@ int main()
     string s;
     int i, j;
     cout << "Задайте фигуры" << endl;
-    while (getline(cin, s))
+    while (getline(cin, s)) 
     {
-        if (s == "")
+        if (s == "") 
         {
             break;
         }
@@ -230,16 +235,15 @@ int main()
         string name = figureName(s);
         pair<string, vector<double>> figure;
 
-        if (name == "triangle")
+        if (name == "triangle") 
         {
             coord = setTriangle(s);
-        }
-        else
+        } else 
         {
             error(1, 0);
         }
-        
-        if (coord.size() > 0)
+
+        if (coord.size() > 0) 
         {
             figure.first = name;
             figure.second = coord;
@@ -247,11 +251,11 @@ int main()
         }
     }
     int z = flist.size();
-    for (i = 0; i < z; i++)
+    for (i = 0; i < z; i++) 
     {
         cout << i + 1 << ". " << flist[i].first << ": ";
         int x = flist[i].second.size();
-        for (j = 0; j < x; j++)
+        for (j = 0; j < x; j++) 
         {
             cout << flist[i].second[j] << " ";
         }
