@@ -32,6 +32,12 @@ void error(int code, int column)
     case 5:
         cout << "Error at column " << column << ": expected '(('; code = " << code << endl;
         break;
+    case 6:
+        cout << "Error at column " << column << ": expected ','; code = " << code << endl;
+        break;
+    case 7:
+        cout << "Error at column " << column << ": too many tokens; code = " << code << endl;
+        break;
     }
 }
 
