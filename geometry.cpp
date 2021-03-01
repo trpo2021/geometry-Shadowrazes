@@ -1,20 +1,20 @@
-﻿#include <cmath>
-#include <cstdlib>
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
 void error(int code, int column)
 {
-    for (int i = 0; i < column; i++) 
+    for (int i = 0; i < column; i++)
     {
         cout << " ";
     }
     cout << "^" << endl;
 
-    switch (code) 
+    switch (code)
     {
     case 1:
         cout << "Error at column " << column << ": 'circle', 'triangle' or 'polygon'; code = " << code << endl;
@@ -43,28 +43,28 @@ void error(int code, int column)
 vector <double> clearVec(vector <double>& coord)
 {
     coord.clear();
-    return (coord);
+    return(coord);
 }
 
-bool odz(int condition)
+bool odz(int condition)  // общее ОДЗ
 {
     return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 44) && (condition != 46) && (condition != 45);
 }
 
-bool odzBeforeAfter(int condition) // ОДЗ для функции поиска лишних запятых перед 1м и после последнего токена
+bool odzBeforeAfter(int condition)   // ОДЗ для функции поиска лишних запятых перед 1м и после последнего токена
 {
     return ((condition < 48) || (condition > 57)) && (condition != 32) && (condition != 46) && (condition != 45);
 }
 
-pair <bool, int> afterBracket(string& s, int i)
+pair <bool, int> afterBracket(string& s, int i)  // проверка лишних токенов после закр. скобки/удаление пробелов за ней
 {
     int leng = s.length(), start = i;
-    pair <bool, int> br(0, 0);
-    if (i == leng)
+    pair <bool, int> br (0, 0);
+    if (i == leng) 
         return br;
-    for (i = i; i < leng; i++) 
+    for (i = i; i < leng; i++)
     {
-        if (s[i] != 32) 
+        if (s[i] != 32)
         {
             br.first = 1;
             br.second = i;
@@ -75,13 +75,13 @@ pair <bool, int> afterBracket(string& s, int i)
     return br;
 }
 
-pair <int, int> btwBrackets(string& s, int start, int end)
+pair <bool, int> btwBrackets(string& s, int start, int end)   // проверка ОДЗ между скобками
 {
-    pair <int, int> btw(0, 0);
+    pair <bool, int> btw(0, 0);
     int i;
-    for (i = start; i < end; i++) 
+    for (i = start; i < end; i++)
     {
-        if (odz(s[i])) 
+        if (odz(s[i]))
         {
             btw.first = 1;
             btw.second = i;
@@ -91,29 +91,29 @@ pair <int, int> btwBrackets(string& s, int start, int end)
     return btw;
 }
 
-string figureName(string& s)
+string figureName(string& s)        // определение названия фигуры
 {
     int bracket = s.find("((");
     string name = "";
     int z = s.length();
 
-    for (int i = 0; i < z; i++) 
+    for (int i = 0; i < z; i++)
     {
-        s[i] = tolower(s[i]); //приводим к одному регистру(строчный)
+        s[i] = tolower(s[i]);               
     }
     name = s.substr(0, bracket);
     return name;
 }
 
-pair <bool, int> commaBeforeAfter(string& s, int start, int end) // проверка лишних запятых до 1го и после последнего токена
+pair <bool, int> commaBeforeAfter(string& s, int start, int end)  // проверка лишних запятых до 1го и после последнего токена
 {
     int i, j = start;
     pair <bool, int> data(0, 0);
     while (odzBeforeAfter(s[j]) || s[j] == ' ')
         j++;
-    for (i = start; i < j; i++) 
+    for (i = start; i < j; i++)
     {
-        if (odzBeforeAfter(s[i])) 
+        if (odzBeforeAfter(s[i]))
         {
             data.first = 1;
             data.second = i;
@@ -121,11 +121,11 @@ pair <bool, int> commaBeforeAfter(string& s, int start, int end) // провер
         }
     }
     j = end;
-    while (odzBeforeAfter(s[j]) || s[j] == ' ')
+    while (odzBeforeAfter(s[j]) || s[j] == ' ')  
         j--;
-    for (i = end; i > j; i--) 
+    for (i = end; i > j; i--)
     {
-        if (odzBeforeAfter(s[i])) 
+        if (odzBeforeAfter(s[i]))
         {
             data.first = 1;
             data.second = i;
@@ -135,81 +135,107 @@ pair <bool, int> commaBeforeAfter(string& s, int start, int end) // провер
     return data;
 }
 
-pair <bool, int> commaBtw(string& s, int start, int end, int k) // проверка лишних запятых между токенами
+pair <bool, int> commaBtw(string& s, int start, int end, int k)  // проверка лишних запятых между токенами
 {
     int i;
     pair <bool, int> data(0, 0);
     for (i = start; i < end; i++)
         if (s[i] != ' ')
             break;
-    switch (k % 2) 
+    switch (k % 2)
     {
-    case 0:
+    case 0: 
         if (s[i] == ',' || (s[i] == ')' && i == end))
             return data;
-        else
-            break;
-    case 1:
+        else break;
+    case 1: 
         if (s[i] != ',')
             return data;
-        else
-            break;
+        else break;
     }
     data.first = 1;
     data.second = i;
     return data;
 }
 
-vector <double> setTriangle(string& s)
+vector<double> setTriangle(string& s)   // выделение координат треугольника
 {
-    vector <double> coord;
+    vector<double> coord;
     string item;
     int bracket = s.find("((");
     int endBracket = s.find("))");
     int k = 0;
-    pair <int, int> uni;
-    pair <bool, int> t;
+    pair <bool, int> uni;
 
-    if (bracket == -1) 
+    if (bracket == -1)
     {
         error(5, 8);
-        coord.clear();
-        return coord;
+        return clearVec(coord);
     }
 
-    if (endBracket == -1) 
+    if (endBracket == -1)
     {
         error(3, s.length());
-        coord.clear();
-        return coord;
+        return clearVec(coord);
     }
 
     uni = afterBracket(s, endBracket + 2);
-    if (uni.first) 
+    if (uni.first)
     {
         error(4, uni.second);
-        coord.clear();
-        return coord;
+        return clearVec(coord);
     }
 
     uni = btwBrackets(s, bracket + 2, endBracket);
-    if (uni.first) 
+    if (uni.first)
     {
         error(2, uni.second);
-        coord.clear();
-        return coord;
+        return clearVec(coord);
+    }
+
+    uni = commaBeforeAfter(s, bracket + 2, endBracket - 1);
+    if (uni.first)
+    {
+        error(4, uni.second);
+        return clearVec(coord);
     }
 
     int i;
-    for (i = bracket + 2; i <= endBracket; i++) 
+    for (i = bracket + 2; i <= endBracket; i++)
     {
-        if ((s[i] == ' ' || s[i] == ')' || s[i] == ',') && item != "") 
+        if ((s[i] == ' ' || s[i] == ')' || s[i] == ',') && item != "")
         {
             coord.push_back(stod(item));
             k++;
+            if (k > 8)
+            {
+                error(7, i - item.length());
+                return clearVec(coord);
+            }
             item = "";
+            if (k < 8)
+            {
+                uni = commaBtw(s, i, endBracket, k);
+                switch (k % 2)
+                {
+                case 0:
+                    if (uni.first == 1)
+                    {
+                        error(6, i);
+                        return clearVec(coord);
+                    }
+                    break;
+                case 1:
+                    if (uni.first == 1)
+                    {
+                        error(4, uni.second);
+                        return clearVec(coord);
+                    }
+                    break;
+                }
+            }
         }
-        if (s[i] != ' ' && s[i] != ',') 
+        if (s[i] != ' ' && s[i] != ',')
         {
             item += s[i];
         }
@@ -224,9 +250,9 @@ int main()
     string s;
     int i, j;
     cout << "Задайте фигуры" << endl;
-    while (getline(cin, s)) 
+    while (getline(cin, s))
     {
-        if (s == "") 
+        if (s == "")
         {
             break;
         }
@@ -235,15 +261,16 @@ int main()
         string name = figureName(s);
         pair<string, vector<double>> figure;
 
-        if (name == "triangle") 
+        if (name == "triangle")
         {
             coord = setTriangle(s);
-        } else 
+        }
+        else
         {
             error(1, 0);
         }
 
-        if (coord.size() > 0) 
+        if (coord.size() > 0)
         {
             figure.first = name;
             figure.second = coord;
@@ -251,15 +278,14 @@ int main()
         }
     }
     int z = flist.size();
-    for (i = 0; i < z; i++) 
+    for (i = 0; i < z; i++)
     {
         cout << i + 1 << ". " << flist[i].first << ": ";
         int x = flist[i].second.size();
-        for (j = 0; j < x; j++) 
+        for (j = 0; j < x; j++)
         {
             cout << flist[i].second[j] << " ";
         }
         cout << endl;
     }
-    system("pause");
 }
