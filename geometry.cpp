@@ -23,7 +23,7 @@ void error(int code, int column)
         cout << "Error at column " << column << ": expected '<double>'; code = " << code << endl;
         break;
     case 3:
-        cout << "Error at column " << column << ": expected '))'; code = " << code << endl;
+        cout << "Error at column " << column << ": expected ')' or '))'; code = " << code << endl;
         break;
     case 4:
         cout << "Error at column " << column << ": unexpected token; code = " << code << endl;
@@ -36,6 +36,9 @@ void error(int code, int column)
         break;
     case 7:
         cout << "Error at column " << column << ": too many tokens; code = " << code << endl;
+        break;
+    case 8:
+        cout << "Error at column " << column << ": expected '(' or '(('; code = " << code << endl;
         break;
     }
 }
@@ -93,9 +96,20 @@ pair <bool, int> btwBrackets(string& s, int start, int end)   // проверк�
 
 string figureName(string& s)        // определение названия фигуры
 {
-    int bracket = s.find("((");
+    int bracket = s.find("(");
     string name = "";
     int z = s.length();
+    if (bracket == -1)
+    {
+        for (int i = 0; i < z; i++)
+        {
+            if ((s[i] > 47) && (s[i] < 58))
+            {
+                error(8, i - 1);
+                return name = "error";
+            }
+        }
+    }
 
     for (int i = 0; i < z; i++)
     {
@@ -259,16 +273,17 @@ int main()
 
         vector<double> coord;
         string name = figureName(s);
+        if (name == "error") continue;
         pair<string, vector<double>> figure;
 
         if (name == "triangle")
         {
             coord = setTriangle(s);
         }
-        else
-        {
-            error(1, 0);
-        }
+            else
+            {
+                error(1, 0);
+            }
 
         if (coord.size() > 0)
         {
