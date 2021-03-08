@@ -191,6 +191,85 @@ pair <int, int> commaBtw(string& s, int start, int end, int k)  // провер�
     return data;
 }
 
+vector <double> setCircle(string& s)
+{
+    vector<double> coord;
+    string item;
+    int bracket = s.find("(");
+    int endBracket = s.find(")");
+    int k = 0;
+    pair <bool, int> uni;
+
+    if (endBracket == -1)
+    {
+        error(3, s.length());
+        return clearVec(coord);
+    }
+
+    uni = afterBracket(s, endBracket + 1);
+    if (uni.first)
+    {
+        error(4, uni.second);
+        return clearVec(coord);
+    }
+
+    uni = btwBrackets(s, bracket + 1, endBracket);
+    if (uni.first)
+    {
+        error(2, uni.second);
+        return clearVec(coord);
+    }
+
+    uni = commaBeforeAfter(s, bracket + 1, endBracket - 1);
+    if (uni.first)
+    {
+        error(4, uni.second);
+        return clearVec(coord);
+    }
+
+    int i;
+    for (i = bracket + 1; i <= endBracket; i++)
+    {
+        if ((s[i] == ' ' || s[i] == ')' || s[i] == ',') && item != "")
+        {
+            coord.push_back(stod(item));
+            k++;
+            if (k > 3)
+            {
+                error(7, i - item.length());
+                return clearVec(coord);
+            }
+            item = "";
+            if (k < 3)
+            {
+                uni = commaBtw(s, i, endBracket, k);
+                switch (k % 2)
+                {
+                case 0:
+                    if (uni.first == 1)
+                    {
+                        error(6, i);
+                        return clearVec(coord);
+                    }
+                    break;
+                case 1:
+                    if (uni.first == 1)
+                    {
+                        error(4, uni.second);
+                        return clearVec(coord);
+                    }
+                    break;
+                }
+            }
+        }
+        if (s[i] != ' ' && s[i] != ',')
+        {
+            item += s[i];
+        }
+    }
+    return coord;
+}
+
 vector<double> setTriangle(string& s)   // выделение координат треугольника
 {
     vector<double> coord;
@@ -304,6 +383,10 @@ int main()
         {
             coord = setTriangle(s);
         }
+        else if(name == "circle")
+            {
+                coord = setCircle(s);
+            }
             else
             {
                 error(1, 0);
