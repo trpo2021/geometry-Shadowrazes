@@ -149,23 +149,42 @@ pair <bool, int> commaBeforeAfter(string& s, int start, int end)  // прове�
     return data;
 }
 
-pair <bool, int> commaBtw(string& s, int start, int end, int k)  // проверка лишних запятых между токенами
+pair <int, int> commaBtw(string& s, int start, int end, int k)  // проверка лишних запятых между токенами
 {
-    int i;
-    pair <bool, int> data(0, 0);
-    for (i = start; i < end; i++)
-        if (s[i] != ' ')
-            break;
-    switch (k % 2)
+    int i, tmp = start, j;
+    pair <int, int> data(0, 0);
+    for (j = 0; j < 2; j++)
     {
-    case 0: 
-        if (s[i] == ',' || (s[i] == ')' && i == end))
-            return data;
-        else break;
-    case 1: 
-        if (s[i] != ',')
-            return data;
-        else break;
+        for (i = tmp; i < end; i++)
+            if (s[i] != ' ')
+                break;
+        switch (k % 2)
+        {
+        case 0:
+            if ((s[i] == ',' || (s[i] == ')' && i == end)) && j == 0)
+                break;
+            else if (s[i] != ',' && j == 1)
+                return data;
+            else if (j == 1)
+            {
+                data.first = 2;
+                data.second = i;
+                return data;
+            }
+            else
+            {
+                data.first = 1;
+                data.second = i;
+                return data;
+            }
+        case 1:
+            if (s[i] != ',')
+                return data;
+            else break;
+        }
+        if (k % 2 == 1) break;
+        if (s[i] == ')' && i == end) return data;
+        tmp = i + 1;
     }
     data.first = 1;
     data.second = i;
@@ -179,7 +198,7 @@ vector<double> setTriangle(string& s)   // выделение координат
     int bracket = s.find("((");
     int endBracket = s.find("))");
     int k = 0;
-    pair <bool, int> uni;
+    pair <int, int> uni;
 
     if (bracket == -1)
     {
@@ -236,6 +255,11 @@ vector<double> setTriangle(string& s)   // выделение координат
                     if (uni.first == 1)
                     {
                         error(6, i);
+                        return clearVec(coord);
+                    }
+                    else if (uni.first == 2)
+                    {
+                        error(4, uni.second);
                         return clearVec(coord);
                     }
                     break;
