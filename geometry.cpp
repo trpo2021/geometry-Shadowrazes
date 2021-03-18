@@ -202,6 +202,15 @@ pair <int, int> commaBtw(string& s, int start, int end, int k)  // провер�
     return data;
 }
 
+vector <double> sqrSum(double a, double b)
+{
+    vector <double> sq;
+    sq.push_back(a*a);
+    sq.push_back(2*a*b);
+    sq.push_back(b*b);
+    return sq;
+}
+
 vector <double> setCircle(string& s)
 {
     vector<double> coord;
