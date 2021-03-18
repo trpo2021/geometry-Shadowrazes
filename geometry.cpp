@@ -245,6 +245,16 @@ double sqrCircle(double r)
     return PI * pow(r, 2);
 }
 
+double sqrTriangle(double p, vector<double> lines)  //new
+{
+    double half = p;
+    for (int i = 0; i < 3; i++)
+    {
+        half *= p - lines[i];
+    }
+    return sqrt(half);
+}
+
 vector <double> setCircle(string& s)
 {
     vector<double> coord;
