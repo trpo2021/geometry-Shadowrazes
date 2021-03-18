@@ -272,6 +272,46 @@ double lenLine(pair <double, double> start, pair <double, double> close)
     return leng;
 }
 
+vector <vector<int>> intersects(vector<pair<string, vector<double>>> flist, vector <vector<int>> inter)
+{
+    int i, j, z = flist.size();
+    bool cross = 0;
+    vector <int> repeat;
+    for (i = 0; i < z; i++)
+    {
+        for (j = i + 1; j < z; j++)
+        {
+            if ((flist[i].first == "triangle" && flist[j].first == "circle") || (flist[i].first == "circle" && flist[j].first == "triangle"))
+            {
+                if (flist[i].first == "circle") cross = trTOcir(flist[j].second, flist[i].second);
+                else cross = trTOcir(flist[i].second, flist[j].second);
+                if (cross)
+                {
+                    inter[i].push_back(j);
+                    inter[j].push_back(i);
+                }
+            }
+            else if (flist[i].first == "triangle" && flist[j].first == "triangle")
+            {
+                if (trTOtr(flist[i].second, flist[j].second))
+                {
+                    inter[i].push_back(j);
+                    inter[j].push_back(i);
+                }
+            }
+            else if (flist[i].first == "circle" && flist[j].first == "circle")
+            {
+                if (cirTOcir(flist[i].second, flist[j].second))
+                {
+                    inter[i].push_back(j);
+                    inter[j].push_back(i);
+                }
+            }
+        }
+    }
+    return inter;
+}
+
 vector <double> setCircle(string& s)
 {
     vector<double> coord;
