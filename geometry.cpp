@@ -272,6 +272,31 @@ double lenLine(pair <double, double> start, pair <double, double> close)
     return leng;
 }
 
+bool trTOcir(vector <double> tr, vector <double> cir) 
+{
+    int i, j, z;
+    bool cross = 0;
+    vector <double> x; vector <double> y; 
+    pair <double, double> q;
+    for (i = 0; i < 6; i += 2)
+    {
+        q.first = tr[i + 2] - tr[i];            //X
+        q.second = tr[i + 3] - tr[i + 1];       //Y
+
+        x = sqrSum(q.first, tr[i] - cir[0]);
+        y = sqrSum(q.second, tr[i+1] - cir[1]);
+        for (j = 0; j < 3; j++)  
+            x[j] += y[j];
+        x[j - 1] -= cir[2] * cir[2];
+        y = sqrEq(x);
+        z = y.size();
+        for (j = 0; j < z; j++)
+            if (y[j] >= 0 && y[j] <= 1)
+               return cross = 1;
+    }
+    return cross;
+}
+
 bool trTOtr(vector <double> trf, vector <double> trs)      
 {
     int i, j, z = trf.size(), m = trs.size();
