@@ -211,6 +211,32 @@ vector <double> sqrSum(double a, double b)
     return sq;
 }
 
+vector <double> sqrEq(vector <double> coef)
+{
+    vector <double> radical(0);
+    struct abc
+    {
+        double a;
+        double b;
+        double c;
+    };
+    abc arg = {coef[0], coef[1], coef[2]};
+    double d = arg.b * arg.b - 4 * arg.a * arg.c;
+    if (d < 0) return radical;
+    else if (d > 0)
+    {
+        radical.push_back((-arg.b + sqrt(d)) / (2 * arg.a));
+        radical.push_back((-arg.b - sqrt(d)) / (2 * arg.a));
+        return radical;
+    }
+    else if (d == 0)
+    {
+        radical.push_back(-arg.b / (2 * arg.a));
+        return radical;
+    }
+    else return radical;
+}
+
 vector <double> setCircle(string& s)
 {
     vector<double> coord;
