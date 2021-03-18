@@ -40,6 +40,15 @@ void error(int code, int column)
     case 8:
         cout << "Error at column " << column << ": expected '(' or '(('; code = " << code << endl;
         break;
+    case 9:
+        cout << "Error: this triangle is degenerate" << endl;          
+        break;
+    case 10:
+        cout << "Error: the radius cannot be less than or equal to zero" << endl; 
+        break;
+    case 11:
+        cout << "Error: too few tokens" << endl;
+        break;
     }
 }
 
