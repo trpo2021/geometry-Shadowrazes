@@ -629,7 +629,7 @@ int main()
     pair <double, double> start; pair <double, double> close;    
     vector <double> leng;
 
-    int i, j, k;
+    int i, j;
     cout << "Задайте фигуры" << endl;
     while (getline(cin, s))
     {
