@@ -263,6 +263,13 @@ pair <double, double> vectCoord(pair <double, double> start, pair <double, doubl
     return vect;
 }
 
+double lenLine(pair <double, double> start, pair <double, double> close) 
+{
+    pair <double, double> vect = vectCoord(start, close);
+    double leng = sqrt(pow(vect.first, 2) + pow(vect.second, 2));
+    return leng;
+}
+
 vector <double> setCircle(string& s)
 {
     vector<double> coord;
