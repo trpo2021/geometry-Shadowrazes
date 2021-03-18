@@ -240,6 +240,11 @@ double lenCircle(double r)
     return 2 * PI * r;
 }
 
+double sqrCircle(double r) 
+{
+    return PI * pow(r, 2);
+}
+
 vector <double> setCircle(string& s)
 {
     vector<double> coord;
