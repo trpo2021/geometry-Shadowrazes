@@ -270,6 +270,56 @@ double lenLine(pair <double, double> start, pair <double, double> close)
     return leng;
 }
 
+bool trTOtr(vector <double> trf, vector <double> trs)      
+{
+    int i, j, z = trf.size(), m = trs.size();
+    bool cross = 0;
+    vector <double> x; vector <double> y;
+    vector <double> tx; vector <double> ty;
+    vector <double> point;
+    pair <double, double> q;
+    pair <double, double> qsec;
+    for (i = 0; i < z - 2; i += 2)
+    {
+        q.first = trf[i + 2] - trf[i];          //X
+        q.second = trf[i + 3] - trf[i + 1];     //Y
+        x.push_back(q.first);
+        y.push_back(q.second);
+        for (j = 0; j < m - 2; j += 2)
+        {
+            x.push_back(trf[i]);
+            y.push_back(trf[i + 1]);
+            tx = x; ty = y;
+            x[1] -= trs[j]; y[1] -= trs[j + 1];
+
+            qsec.first = trs[j + 2] - trs[j];          //X
+            qsec.second = trs[j + 3] - trs[j + 1];     //Y
+
+            x[0] *= qsec.second; x[1] *= qsec.second;
+            y[0] *= qsec.first; y[1] *= qsec.first;
+
+            x[0] -= y[0]; x[1] -= y[1];
+            
+            double t = -x[1] / x[0];
+
+            point.push_back(tx[0] * t + tx[1]);
+            point.push_back(ty[0] * t + ty[1]);
+
+            if (((trf[i] <= point[0] && point[0] <= trf[i + 2]) || (trf[i + 2] <= point[0] && point[0] <= trf[i])) && ((trf[i + 1] <= point[1] && point[1] <= trf[i + 3]) || (trf[i + 3] <= point[1] && point[1] <= trf[i + 1])))
+            {
+                if (((trs[j] <= point[0] && point[0] <= trs[j + 2]) || (trs[j + 2] <= point[0] && point[0] <= trs[j])) && ((trs[j + 1] <= point[1] && point[1] <= trs[j + 3]) || (trs[j + 3] <= point[1] && point[1] <= trs[j + 1])))
+                    return cross = 1;
+            }
+                //проверка точки пересечения на принадлежность отрезку: от начала и до конца || от конца и до начала, в обе стороны - т.к могут быть разные направления векторов
+
+            x.pop_back(); y.pop_back(); point.clear();
+            x[0] = q.first; y[0] = q.second;
+        }
+        x.clear(); y.clear(); tx.clear(); ty.clear();
+    }
+    return cross;
+}
+
 vector <vector<int>> intersects(vector<pair<string, vector<double>>> flist, vector <vector<int>> inter)
 {
     int i, j, z = flist.size();
