@@ -247,7 +247,7 @@ double sqrCircle(double r)
     return PI * pow(r, 2);
 }
 
-double sqrTriangle(double p, vector<double> lines)  //new
+double sqrTriangle(double p, vector<double> lines) 
 {
     double half = p;
     for (int i = 0; i < 3; i++)
@@ -255,6 +255,14 @@ double sqrTriangle(double p, vector<double> lines)  //new
         half *= p - lines[i];
     }
     return sqrt(half);
+}
+
+pair <double, double> vectCoord(pair <double, double> start, pair <double, double> close)
+{
+    pair <double, double> vect;
+    vect.first = close.first - start.first;
+    vect.second = close.second - start.second;
+    return vect;
 }
 
 vector <double> setCircle(string& s)
