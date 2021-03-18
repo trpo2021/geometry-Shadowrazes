@@ -237,6 +237,11 @@ vector <double> sqrEq(vector <double> coef)
     else return radical;
 }
 
+double lenCircle(double r) 
+{
+    return 2 * PI * r;
+}
+
 vector <double> setCircle(string& s)
 {
     vector<double> coord;
