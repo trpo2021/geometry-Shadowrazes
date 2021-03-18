@@ -491,7 +491,7 @@ vector <double> setCircle(string& s)
     return coord;
 }
 
-vector<double> setTriangle(string& s)   // выделение координат треугольника
+vector <double> setTriangle(string& s)   // выделение координат треугольника
 {
     vector<double> coord;
     string item;
@@ -523,13 +523,6 @@ vector<double> setTriangle(string& s)   // выделение координат
     if (uni.first)
     {
         error(2, uni.second);
-        return clearVec(coord);
-    }
-
-    uni = commaBeforeAfter(s, bracket + 2, endBracket - 1);
-    if (uni.first)
-    {
-        error(4, uni.second);
         return clearVec(coord);
     }
 
@@ -571,6 +564,11 @@ vector<double> setTriangle(string& s)   // выделение координат
                     }
                     break;
                 }
+                if (s[i] == ')')
+                {
+                    error(11, i);
+                    return clearVec(coord);
+                }
             }
         }
         if (s[i] != ' ' && s[i] != ',')
@@ -578,6 +576,46 @@ vector<double> setTriangle(string& s)   // выделение координат
             item += s[i];
         }
     }
+    uni = commaBeforeAfter(s, bracket + 2, endBracket - 1);
+    if (uni.first)
+    {
+        error(4, uni.second);
+        return clearVec(coord);
+    }
+    if (coord.size() == 8)                                  
+    {
+        vector <pair <double, double>> forexist;
+        int j, n = 0;
+        for (j = 0; j < 3; j++)
+        {
+            pair <double, double> start(coord[n], coord[n + 1]);
+            pair <double, double> close(coord[n + 2], coord[n + 3]);
+            forexist.push_back(vectCoord(start, close));
+            n += 2;
+        }
+        int x = 0, y = 0;
+        for (j = 0; j < 3; j++)
+        {
+            x += forexist[j].first;
+            y += forexist[j].second;
+        }
+        vector <double> leng;
+        double perimeter = 0;
+        for (j = 0; j < 6; j += 2)
+        {
+            pair <double, double> start(coord[j], coord[j + 1]);
+            pair <double, double> close(coord[j + 2], coord[j + 3]);
+            leng.push_back(lenLine(start, close));
+        }
+        for (j = 0; j < 3; j++) perimeter += leng[j];
+        double square = sqrTriangle(perimeter / 2, leng);
+        if (x != 0 || y != 0 || square == 0)
+        {
+            error(9, 0);
+            coord.clear();
+        }
+    }
+    else coord.clear();
     return coord;
 }
 
