@@ -3,8 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <cstdlib>
-#include "checks.h"
-#include "calculations.h"
+#include <libgeometry/checks.h>
+#include <libgeometry/calculations.h>
 
 using namespace std;
 
@@ -95,4 +95,5 @@ int main()
         else
             cout << "       none" << endl << endl;
     }
+    system("pause");
 }

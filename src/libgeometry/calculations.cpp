@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <libgeometry/calculations.h>
 
 using namespace std;
 

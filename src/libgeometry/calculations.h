@@ -4,18 +4,16 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
-vector <double> sqrSum(double a, double b);
-vector <double> sqrEq(vector <double> coef);
+std::vector<double> sqrSum(double a, double b);
+std::vector<double> sqrEq(std::vector<double> coef);
 double lenCircle(double r);
 double sqrCircle(double r);
-double sqrTriangle(double p, vector<double> lines);
-pair <double, double> vectCoord(pair <double, double> start, pair <double, double> close);
-double lenLine(pair <double, double> start, pair <double, double> close);
-bool cirTOcir(vector <double> cirf, vector <double> cirs);
-bool trTOcir(vector <double> tr, vector <double> cir);
-bool trTOtr(vector <double> trf, vector <double> trs);
-vector <vector<int>> intersects(vector<pair<string, vector<double>>> flist, vector <vector<int>> inter);
+double sqrTriangle(double p, std::vector<double> lines);
+std::pair <double, double> vectCoord(std::pair <double, double> start, std::pair <double, double> close);
+double lenLine(std::pair<double, double> start, std::pair<double, double> close);
+bool cirTOcir(std::vector<double> cirf, std::vector<double> cirs);
+bool trTOcir(std::vector<double> tr, std::vector<double> cir);
+bool trTOtr(std::vector<double> trf, std::vector<double> trs);
+std::vector <std::vector<int>> intersects(std::vector<std::pair<string, std::vector<double>>> flist, std::vector <std::vector<int>> inter);
 
 #endif

@@ -3,7 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <cstdlib>
-#include "calculations.h"
+#include <libgeometry/checks.h>
+#include <libgeometry/calculations.h>
 
 using namespace std;
 

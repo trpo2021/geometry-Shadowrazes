@@ -3,20 +3,18 @@
 
 #include <string>
 #include <vector>
-#include "calculations.h"
-
-using namespace std;
+#include <libgeometry/calculations.h>
 
 void error(int code, int column);
-vector<double> clearVec(vector<double>& coord);
+std::vector<double> clearVec(std::vector<double>& coord);
 bool odz(int condition);
 bool odzBeforeAfter(int condition);
-pair<bool, int> afterBracket(string& s, int i);
-pair<bool, int> btwBrackets(string& s, int start, int end);
-string figureName(string& s);
-pair<bool, int> commaBeforeAfter(string& s, int start, int end);
-pair<int, int> commaBtw(string& s, int start, int end, int k);
-vector<double> setCircle(string& s);
-vector<double> setTriangle(string& s);
+std::pair<bool, int> afterBracket(std::string& s, int i);
+std::pair<bool, int> btwBrackets(std::string& s, int start, int end);
+std::string figureName(std::string& s);
+std::pair<bool, int> commaBeforeAfter(std::string& s, int start, int end);
+std::pair<int, int> commaBtw(std::string& s, int start, int end, int k);
+std::vector<double> setCircle(std::string& s);
+std::vector<double> setTriangle(std::string& s);
 
 #endif // !CHECKS_H
