@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 using namespace std;
-
+//for rebase
 void error(int code, int column)
 {
     for (int i = 0; i < column; i++)
