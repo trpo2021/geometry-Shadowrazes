@@ -15,3 +15,8 @@ obj/geometry.o: src/geometry/geometry.cpp
 
 -include geometry.d checks.d calculations.d
 
+.PHONY: clean
+
+clean: 
+	rm -rf $(GEO)/*.o $(GEO)/*.d $(LIBG)/*.o $(LIBG)/*.d bin/*.exe
+
