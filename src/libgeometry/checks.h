@@ -1,9 +1,9 @@
 #ifndef CHECKS_H
 #define CHECKS_H
 
+#include <libgeometry/calculations.h>
 #include <string>
 #include <vector>
-#include <libgeometry/calculations.h>
 
 void error(int code, int column);
 std::vector<double> clearVec(std::vector<double>& coord);
