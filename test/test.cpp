@@ -40,4 +40,59 @@ TEST_CASE("Calculating triangle", "")
         CHECK(sqrTriangle(p, a) == Approx(10.97248));
     }
 }
+TEST_CASE("general", "")
+{
+    SECTION("lenLine")
+    {
+        std::pair<double, double> start(0, 0);
+        std::pair<double, double> close(0, 5);
+        CHECK(lenLine(start, close) == 5);
+        std::pair<double, double> start2(1.2, 3.1);
+        std::pair<double, double> close2(2.3, 7.5);
+        CHECK(lenLine(start2, close2) == Approx(4.53542));
+    }
+    SECTION("vectCoord")
+    {
+        std::pair<double, double> start(0, 0);
+        std::pair<double, double> close(0, 5);
+        CHECK(vectCoord(start, close) == std::pair<double, double>(0, 5));
+        std::pair<double, double> start2(1.2, 3.1);
+        std::pair<double, double> close2(2.3, 7.5);
+        double a = 2.3 - 1.2, b = 7.5 - 3.1;
+        CHECK(vectCoord(start2, close2).first == Approx(a));
+        CHECK(vectCoord(start2, close2).second == Approx(b));
+    }
+    SECTION("sqrSum")
+    {
+        std::vector<double> a{4, 0, 0};
+        std::vector<double> b{0, 0, 0};
+        std::vector<double> c{26.01, 29.58, 8.41};
+        std::vector<double> d{83.5396, 78.9696, 18.6624};
+        CHECK(sqrSum(2, 0) == a);
+        CHECK(sqrSum(0, 0) == b);
+        std::vector<double> temp = sqrSum(5.1, 2.9);
+        for (int i = 0; i < 3; i++) {
+            CHECK(temp[i] == Approx(c[i]));
+        }
+        temp = sqrSum(9.14, 4.32);
+        for (int i = 0; i < 3; i++) {
+            CHECK(temp[i] == Approx(d[i]));
+        }
+    }
+    SECTION("sqrEq")
+    {
+        std::vector<double> a{-0.5, -1};
+        std::vector<double> b{-0.60435, -2.89564};
+        std::vector<double> input1{4, 6, 2};
+        std::vector<double> temp1 = sqrEq(input1);
+        for (int i = 0; i < 2; i++) {
+            CHECK(temp1[i] == Approx(a[i]));
+        }
+        std::vector<double> input2{1.2, 4.2, 2.1};
+        std::vector<double> temp2 = sqrEq(input2);
+        for (int i = 0; i < 2; i++) {
+            CHECK(temp2[i] == Approx(b[i]));
+        }
+    }
+}
 
