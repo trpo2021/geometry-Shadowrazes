@@ -195,3 +195,27 @@ TEST_CASE("aroundBrackets", "")
               != status);
     }
 }
+TEST_CASE("setFigure", "")
+{
+    SECTION("setCircle")
+    {
+        std::vector<std::string> a
+                = {"circle(-3.0 2.2, -5.7)",
+                   "circle(-3.5 2.2, 5.87)",
+                   "circle -3 2, 5)"};
+        CHECK(setCircle(a[0]) == std::vector<double>{});
+        CHECK(setCircle(a[1]) == std::vector<double>{-3.5, 2.2, 5.87});
+        CHECK(setCircle(a[2]) == std::vector<double>{});
+    }
+    SECTION("setTriangle")
+    {
+        std::vector<std::string> a
+                = {"triangle((-3 2, 5 6, -23 -54, 65 43))",
+                   "triangle((-3.0 -2, -1 0.0, -3.0 2.0, -3 -2))",
+                   "triangle((-3 2, 5 6, -23 -54, 65 43"};
+        CHECK(setTriangle(a[0]) == std::vector<double>{});
+        CHECK(setTriangle(a[1])
+              == std::vector<double>{-3.0, -2, -1, 0.0, -3.0, 2.0, -3, -2});
+        CHECK(setTriangle(a[2]) == std::vector<double>{});
+    }
+}
