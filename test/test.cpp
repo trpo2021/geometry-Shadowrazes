@@ -1,11 +1,10 @@
 #define CATCH_CONFIG_MAIN
-#include <iostream>
 #include "../thirdparty/catch.hpp"
-#include <libgeometry/checks.h>
+#include <iostream>
 #include <libgeometry/calculations.h>
+#include <libgeometry/checks.h>
 #include <string.h>
 #include <vector>
-
 
 TEST_CASE("Calculating circle", "")
 {
@@ -24,7 +23,7 @@ TEST_CASE("Calculating circle", "")
         double b = 1;
         double c = 1.56;
         CHECK(sqrCircle(a) == Approx(78.53982));
-        CHECK(sqrCircle(b) == Approx(3.14159)); 
+        CHECK(sqrCircle(b) == Approx(3.14159));
         CHECK(sqrCircle(c) == Approx(7.64538));
     }
 }
