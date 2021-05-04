@@ -105,3 +105,28 @@ TEST_CASE("ClearVector", "")
         CHECK(clearVec(tempEmpty).size() == 0);
     }
 }
+TEST_CASE("allowedValue", "")
+{
+    SECTION("odz")
+    {
+        std::vector<char> a = {'a', '$', '3', ' ', ',', '.', '-'};
+        CHECK(odz(a[0]) == true);
+        CHECK(odz(a[1]) == true);
+        CHECK(odz(a[2]) == false);
+        CHECK(odz(a[3]) == false);
+        CHECK(odz(a[4]) == false);
+        CHECK(odz(a[5]) == false);
+        CHECK(odz(a[6]) == false);
+    }
+    SECTION("odzBeforeAfter")
+    {
+        std::vector<char> a = {'a', '$', '3', ' ', ',', '.', '-'};
+        CHECK(odzBeforeAfter(a[0]) == true);
+        CHECK(odzBeforeAfter(a[1]) == true);
+        CHECK(odzBeforeAfter(a[2]) == false);
+        CHECK(odzBeforeAfter(a[3]) == false);
+        CHECK(odzBeforeAfter(a[4]) == true);
+        CHECK(odzBeforeAfter(a[5]) == false);
+        CHECK(odzBeforeAfter(a[6]) == false);
+    }
+}
