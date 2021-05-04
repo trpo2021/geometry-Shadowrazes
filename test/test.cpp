@@ -28,5 +28,16 @@ TEST_CASE("Calculating circle", "")
         CHECK(sqrCircle(c) == Approx(7.64538));
     }
 }
-
+TEST_CASE("Calculating triangle", "")
+{
+    SECTION("sqrTriangle")
+    {
+        std::vector<double> a = {3, 6, 7};
+        double p = 8;
+        CHECK(sqrTriangle(p, a) == Approx(8.94427));
+        a = {3.3, 6.65, 7.43};
+        p = 8.69;
+        CHECK(sqrTriangle(p, a) == Approx(10.97248));
+    }
+}
 
