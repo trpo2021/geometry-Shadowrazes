@@ -95,4 +95,13 @@ TEST_CASE("general", "")
         }
     }
 }
-
+TEST_CASE("ClearVector", "")
+{
+    SECTION("Clear")
+    {
+        std::vector<double> temp = {3.9, 23, -2.3, 2.66547};
+        std::vector<double> tempEmpty = {};
+        CHECK(clearVec(temp).size() == 0);
+        CHECK(clearVec(tempEmpty).size() == 0);
+    }
+}
