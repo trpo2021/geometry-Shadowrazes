@@ -219,3 +219,37 @@ TEST_CASE("setFigure", "")
         CHECK(setTriangle(a[2]) == std::vector<double>{});
     }
 }
+TEST_CASE("intersects", "")
+{
+    SECTION("cirTOcir")
+    {
+        std::vector<double> c1{0, 0, 2};
+        std::vector<double> c2{1, 1, 2};
+        CHECK(cirTOcir(c1, c2) == 1);
+        std::vector<double> c3{9.3, -4.2, 2.8};
+        CHECK(cirTOcir(c1, c3) == 0);
+        std::vector<double> c4{9, -4.2, 2.8};
+        CHECK(cirTOcir(c1, c4) == 0);
+    }
+    SECTION("trTOcir")
+    {
+        std::vector<double> tr{-3.0, -2, -1, 0.0, -3.0, 2.0, -3, -2};
+        std::vector<double> cir1{0, 0, 2};
+        CHECK(trTOcir(tr, cir1) == 1);
+        std::vector<double> cir2{5, 5, 2.8};
+        CHECK(trTOcir(tr, cir2) == 0);
+        std::vector<double> cir3{-2, 0, 7};
+        CHECK(trTOcir(tr, cir3) == 0);
+    }
+    SECTION("trTOtr")
+    {
+        std::vector<double> tr1{-3.0, -2, -1, 0.0, -3.0, 2.0, -3, -2};
+        std::vector<double> tr2{-3.0, -2, -1, 0.0, -3.0, 2.0, -3, -2};
+        CHECK(trTOtr(tr1, tr2) == 1);
+        std::vector<double> tr3{-6.0, -4, 5, 0.0, -6.0, 4.0, -6, -4};
+        CHECK(trTOtr(tr1, tr3) == 0);
+        std::vector<double> tr4{2, -3, 2, 3, 5, 0, 2, -3};
+        CHECK(trTOtr(tr1, tr4) == 0);
+    }
+    system("pause");
+}
