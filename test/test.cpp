@@ -130,3 +130,68 @@ TEST_CASE("allowedValue", "")
         CHECK(odzBeforeAfter(a[6]) == false);
     }
 }
+TEST_CASE("aroundBrackets", "")
+{
+    SECTION("figureName")
+    {
+        std::string errorStr = "error";
+        std::vector<std::string> a
+                = {"CirCle(2, 3, 5)",
+                   "tRiaNgle((2 3, 5 2.3, 0 0, -2 3))",
+                   "ciHRrcle(2, 3, 5)",
+                   "triaMGngle((2 3, 2.3, 0 0, -2 3))",
+                   "circle 2, 3, 5)"};
+        CHECK(figureName(a[0]) == "circle");
+        CHECK(figureName(a[1]) == "triangle");
+        CHECK(figureName(a[2]) == "cihrrcle");
+        CHECK(figureName(a[3]) == "triamgngle");
+        CHECK(figureName(a[4]) == errorStr);
+    }
+    SECTION("afterBracket")
+    {
+        std::pair<bool, int> status(0, 0);
+        std::vector<std::string> a
+                = {"circle(2, 3, 5)    ",
+                   "triangle((2 3, 5 2.3, 0 0, -2 3))    ",
+                   "circle(2, 3, 5) gdf ff",
+                   "triangle((2 3, 5 2.3, 0 0, -2 3)) gfd fg"};
+        CHECK(afterBracket(a[0], a[0].find(")") + 1) == status);
+        CHECK(afterBracket(a[1], a[1].find("))") + 2) == status);
+        CHECK(afterBracket(a[2], a[2].find(")") + 1) != status);
+        CHECK(afterBracket(a[3], a[3].find("))") + 2) != status);
+    }
+    SECTION("btwBrackets")
+    {
+        std::pair<bool, int> status(0, 0);
+        std::vector<std::string> a
+                = {"circle(2, 3, 5)",
+                   "triangle((2 3, 5 2.3, 0 0, -2 3))",
+                   "circle(2,$ 3, 5)",
+                   "triangle((2 3,  a 2.3, 0 0, -2 3))"};
+        CHECK(btwBrackets(a[0], a[0].find("(") + 1, a[0].find(")") - 1)
+              == status);
+        CHECK(btwBrackets(a[1], a[1].find("((") + 2, a[1].find("))") - 1)
+              == status);
+        CHECK(btwBrackets(a[2], a[2].find("(") + 1, a[2].find(")") - 1)
+              != status);
+        CHECK(btwBrackets(a[3], a[3].find("((") + 2, a[3].find("))") - 1)
+              != status);
+    }
+    SECTION("commaBeforeAfter")
+    {
+        std::pair<bool, int> status(0, 0);
+        std::vector<std::string> a
+                = {"circle(2, 3, 5)",
+                   "triangle((2 3, 5 2.3, 0 0, -2 3))",
+                   "circle( ,2, 3, 5)",
+                   "triangle((2 3, 2.3, 0 0, -2 3 ,))"};
+        CHECK(commaBeforeAfter(a[0], a[0].find("(") + 1, a[0].find(")") - 1)
+              == status);
+        CHECK(commaBeforeAfter(a[1], a[1].find("((") + 2, a[1].find("))") - 1)
+              == status);
+        CHECK(commaBeforeAfter(a[2], a[2].find("(") + 1, a[2].find(")") - 1)
+              != status);
+        CHECK(commaBeforeAfter(a[3], a[3].find("((") + 2, a[3].find("))") - 1)
+              != status);
+    }
+}
