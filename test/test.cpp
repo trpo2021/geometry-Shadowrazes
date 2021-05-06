@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include "../thirdparty/catch.hpp"
+#include <catch.hpp>
 #include <iostream>
 #include <libgeometry/calculations.h>
 #include <libgeometry/checks.h>

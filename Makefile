@@ -24,7 +24,7 @@ bin/test: $(LIBG)/libgeometry.a obj/test/mytest.o
 	$(CXX) -I src -Wall -Werror -o bin/test obj/test/mytest.o $(LIBG)/libgeometry.a 
 
 obj/test/mytest.o: test/test.cpp
-		$(CXX) -I src $(CFLAGS) -MMD -o obj/test/mytest.o test/test.cpp
+		$(CXX) -I src -I thirdparty $(CFLAGS) -MMD -o obj/test/mytest.o test/test.cpp
 
 -include geometry.d checks.d calculating.d catch.d
 
