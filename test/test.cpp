@@ -133,6 +133,7 @@ TEST_CASE("aroundBrackets", "")
 {
     SECTION("figureName")
     {
+        int column = 0;
         std::string errorStr = "error";
         std::vector<std::string> a
                 = {"CirCle(2, 3, 5)",
@@ -140,11 +141,11 @@ TEST_CASE("aroundBrackets", "")
                    "ciHRrcle(2, 3, 5)",
                    "triaMGngle((2 3, 2.3, 0 0, -2 3))",
                    "circle 2, 3, 5)"};
-        CHECK(figureName(a[0]) == "circle");
-        CHECK(figureName(a[1]) == "triangle");
-        CHECK(figureName(a[2]) == "cihrrcle");
-        CHECK(figureName(a[3]) == "triamgngle");
-        CHECK(figureName(a[4]) == errorStr);
+        CHECK(figureName(a[0], column) == "circle");
+        CHECK(figureName(a[1], column) == "triangle");
+        CHECK(figureName(a[2], column) == "cihrrcle");
+        CHECK(figureName(a[3], column) == "triamgngle");
+        CHECK(figureName(a[4], column) == errorStr);
     }
     SECTION("afterBracket")
     {
@@ -202,9 +203,9 @@ TEST_CASE("setFigure", "")
                 = {"circle(-3.0 2.2, -5.7)",
                    "circle(-3.5 2.2, 5.87)",
                    "circle -3 2, 5)"};
-        CHECK(setCircle(a[0]) == std::vector<double>{});
+        CHECK(setCircle(a[0]).size() == 2);
         CHECK(setCircle(a[1]) == std::vector<double>{-3.5, 2.2, 5.87});
-        CHECK(setCircle(a[2]) == std::vector<double>{});
+        CHECK(setCircle(a[2]).size() == 2);
     }
     SECTION("setTriangle")
     {
@@ -212,10 +213,10 @@ TEST_CASE("setFigure", "")
                 = {"triangle((-3 2, 5 6, -23 -54, 65 43))",
                    "triangle((-3.0 -2, -1 0.0, -3.0 2.0, -3 -2))",
                    "triangle((-3 2, 5 6, -23 -54, 65 43"};
-        CHECK(setTriangle(a[0]) == std::vector<double>{});
+        CHECK(setTriangle(a[0]).size() == 2);
         CHECK(setTriangle(a[1])
               == std::vector<double>{-3.0, -2, -1, 0.0, -3.0, 2.0, -3, -2});
-        CHECK(setTriangle(a[2]) == std::vector<double>{});
+        CHECK(setTriangle(a[2]).size() == 2);
     }
 }
 TEST_CASE("intersects", "")

@@ -27,9 +27,12 @@ int main()
         }
 
         vector<double> coord;
-        string name = figureName(s);
-        if (name == "error")
+        int column = 0;
+        string name = figureName(s, column);
+        if (name == "error") {
+            error(8, column);
             continue;
+        }
         pair<string, vector<double>> figure;
 
         if (name == "triangle") {
@@ -40,11 +43,13 @@ int main()
             error(1, 0);
         }
 
-        if (coord.size() > 0) {
+        if (coord.size() > 2) {
             str.push_back(s);
             figure.first = name;
             figure.second = coord;
             flist.push_back(figure);
+        } else {
+            error(coord[0], coord[1]);
         }
     }
 

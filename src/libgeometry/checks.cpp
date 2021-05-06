@@ -114,7 +114,7 @@ btwBrackets(string& s, int start, int end) // проверка ОДЗ между скобками
     return btw;
 }
 
-string figureName(string& s) // определение названия фигуры
+string figureName(string& s, int& column) // определение названия фигуры
 {
     int bracket = s.find("(");
     string name = "";
@@ -122,7 +122,7 @@ string figureName(string& s) // определение названия фигуры
     if (bracket == -1) {
         for (int i = 0; i < z; i++) {
             if ((s[i] > 47) && (s[i] < 58)) {
-                error(8, i - 1);
+                column = i - 1;
                 return name = "error";
             }
         }
@@ -218,26 +218,34 @@ vector<double> setCircle(string& s)
     pair<bool, int> uni;
 
     if (endBracket == -1) {
-        error(3, s.length());
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(3);
+        coord.push_back(s.length());
+        return coord;
     }
 
     uni = afterBracket(s, endBracket + 1);
     if (uni.first) {
-        error(4, uni.second);
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(4);
+        coord.push_back(uni.second);
+        return coord;
     }
 
     uni = btwBrackets(s, bracket + 1, endBracket);
     if (uni.first) {
-        error(2, uni.second);
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(2);
+        coord.push_back(uni.second);
+        return coord;
     }
 
     uni = commaBeforeAfter(s, bracket + 1, endBracket - 1);
     if (uni.first) {
-        error(4, uni.second);
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(4);
+        coord.push_back(uni.second);
+        return coord;
     }
 
     int i;
@@ -246,8 +254,10 @@ vector<double> setCircle(string& s)
             coord.push_back(stod(item));
             k++;
             if (k > 3) {
-                error(7, i - item.length());
-                return clearVec(coord);
+                clearVec(coord);
+                coord.push_back(7);
+                coord.push_back(i - item.length());
+                return coord;
             }
             item = "";
             if (k < 3) {
@@ -255,14 +265,18 @@ vector<double> setCircle(string& s)
                 switch (k % 2) {
                 case 0:
                     if (uni.first == 1) {
-                        error(6, i);
-                        return clearVec(coord);
+                        clearVec(coord);
+                        coord.push_back(6);
+                        coord.push_back(i);
+                        return coord;
                     }
                     break;
                 case 1:
                     if (uni.first == 1) {
-                        error(4, uni.second);
-                        return clearVec(coord);
+                        clearVec(coord);
+                        coord.push_back(4);
+                        coord.push_back(uni.second);
+                        return coord;
                     }
                     break;
                 }
@@ -273,8 +287,10 @@ vector<double> setCircle(string& s)
         }
     }
     if (coord[2] <= 0) {
-        error(10, 0);
-        coord.clear();
+        clearVec(coord);
+        coord.push_back(10);
+        coord.push_back(0);
+        return coord;
     }
     return coord;
 }
@@ -289,25 +305,33 @@ vector<double> setTriangle(string& s) // выделение координат треугольника
     pair<int, int> uni;
 
     if (bracket == -1) {
-        error(5, 8);
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(5);
+        coord.push_back(8);
+        return coord;
     }
 
     if (endBracket == -1) {
-        error(3, s.length());
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(3);
+        coord.push_back(s.length());
+        return coord;
     }
 
     uni = afterBracket(s, endBracket + 2);
     if (uni.first) {
-        error(4, uni.second);
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(4);
+        coord.push_back(uni.second);
+        return coord;
     }
 
     uni = btwBrackets(s, bracket + 2, endBracket);
     if (uni.first) {
-        error(2, uni.second);
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(2);
+        coord.push_back(uni.second);
+        return coord;
     }
 
     int i;
@@ -316,8 +340,10 @@ vector<double> setTriangle(string& s) // выделение координат треугольника
             coord.push_back(stod(item));
             k++;
             if (k > 8) {
-                error(7, i - item.length());
-                return clearVec(coord);
+                clearVec(coord);
+                coord.push_back(7);
+                coord.push_back(i - item.length());
+                return coord;
             }
             item = "";
             if (k < 8) {
@@ -325,23 +351,31 @@ vector<double> setTriangle(string& s) // выделение координат треугольника
                 switch (k % 2) {
                 case 0:
                     if (uni.first == 1) {
-                        error(6, i);
-                        return clearVec(coord);
+                        clearVec(coord);
+                        coord.push_back(6);
+                        coord.push_back(i);
+                        return coord;
                     } else if (uni.first == 2) {
-                        error(4, uni.second);
-                        return clearVec(coord);
+                        clearVec(coord);
+                        coord.push_back(4);
+                        coord.push_back(uni.second);
+                        return coord;
                     }
                     break;
                 case 1:
                     if (uni.first == 1) {
-                        error(4, uni.second);
-                        return clearVec(coord);
+                        clearVec(coord);
+                        coord.push_back(4);
+                        coord.push_back(uni.second);
+                        return coord;
                     }
                     break;
                 }
                 if (s[i] == ')') {
-                    error(11, i);
-                    return clearVec(coord);
+                    clearVec(coord);
+                    coord.push_back(11);
+                    coord.push_back(i);
+                    return coord;
                 }
             }
         }
@@ -351,8 +385,10 @@ vector<double> setTriangle(string& s) // выделение координат треугольника
     }
     uni = commaBeforeAfter(s, bracket + 2, endBracket - 1);
     if (uni.first) {
-        error(4, uni.second);
-        return clearVec(coord);
+        clearVec(coord);
+        coord.push_back(4);
+        coord.push_back(uni.second);
+        return coord;
     }
     if (coord.size() == 8) {
         vector<pair<double, double>> forexist;
@@ -379,8 +415,10 @@ vector<double> setTriangle(string& s) // выделение координат треугольника
             perimeter += leng[j];
         double square = sqrTriangle(perimeter / 2, leng);
         if (x != 0 || y != 0 || square == 0) {
-            error(9, 0);
-            coord.clear();
+            clearVec(coord);
+            coord.push_back(9);
+            coord.push_back(0);
+            return coord;
         }
     } else
         coord.clear();
