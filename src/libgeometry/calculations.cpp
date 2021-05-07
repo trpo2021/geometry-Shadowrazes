@@ -77,35 +77,10 @@ double lenLine(pair<double, double> start, pair<double, double> close)
 bool cirTOcir(vector<double> cirf, vector<double> cirs)
 {
     bool cross = 0;
-    int i;
-    cirf[2] *= cirf[2];
-    cirs[2] *= cirs[2];
-    vector<double> xone = sqrSum(1, cirf[0]);
-    vector<double> yone = sqrSum(1, cirf[1]);
-    vector<double> xsec = sqrSum(1, cirs[0]);
-    vector<double> ysec = sqrSum(1, cirs[1]);
-    vector<double> tx = xone;
-    tx[2] += yone[2] - cirf[2];
-    double yOneCoef = yone[1];
-    for (i = 0; i < 3; i++) {
-        xone[i] -= xsec[i];
-        yone[i] -= ysec[i];
-    }
-    yone[2] += xone[2] - (cirf[2] - cirs[2]);
-    xone[2] = 0;
-    yone[2] = -yone[2];
-    vector<double> afterminus;
-    afterminus.push_back(xone[1]);
-    for (i = 1; i < 3; i++)
-        afterminus.push_back(yone[i]);
-    vector<double> sqy = sqrSum(
-            -afterminus[0] / afterminus[1], afterminus[2] / afterminus[1]);
-    for (i = 0; i < 3; i++)
-        tx[i] += sqy[i];
-    tx[1] += (-afterminus[0] / afterminus[1]) * yOneCoef;
-    tx[2] += (afterminus[2] / afterminus[1]) * yOneCoef;
-    tx = sqrEq(tx);
-    if (tx.size() > 0)
+    pair<double, double> start(cirf[0], cirf[1]);
+    pair<double, double> close(cirs[0], cirs[1]);
+    double distance = lenLine(start, close);
+    if (distance <= cirf[2] + cirs[2] && distance >= abs(cirf[2] - cirs[2]))
         return cross = 1;
     else
         return cross;
